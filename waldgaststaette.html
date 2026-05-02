@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waldgaststätte Oberweikertshofen – Egenhofen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --forest:    #1e3a2a;
+  --forest-mid:#2d5240;
+  --forest-lt: #3d6b52;
+  --cream:     #f8f4ed;
+  --cream-dk:  #ede6d8;
+  --sand:      #c9b99a;
+  --gold:      #b5883a;
+  --gold-lt:   #d4a855;
+  --text:      #1a2a1e;
+  --muted:     #6b7a6e;
+  --border:    rgba(30,58,42,0.12);
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Jost', sans-serif;
+  --max:       900px;
+}
+
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* grain */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:9000;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 1rem 5vw;
+  background: rgba(248,244,237,0.93);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.2rem; font-weight:600;
+  color: var(--forest); text-decoration:none;
+  letter-spacing:0.01em; line-height:1.1;
+}
+.nav-logo small {
+  display:block; font-family:var(--sans);
+  font-size:0.6rem; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--muted);
+  font-weight:400; margin-top:1px;
+}
+
+.nav-links { display:flex; gap:1.8rem; list-style:none; }
+.nav-links a {
+  color:var(--muted); text-decoration:none;
+  font-size:0.78rem; font-weight:500;
+  letter-spacing:0.1em; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--forest); }
+.nav-cta {
+  background:var(--forest) !important; color:#fff !important;
+  padding:.45rem 1.1rem; border-radius:2px;
+  transition:background .2s !important;
+}
+.nav-cta:hover { background:var(--forest-mid) !important; }
+
+.hamburger {
+  display:none; flex-direction:column; gap:5px;
+  background:none; border:none; cursor:pointer; padding:3px;
+}
+.hamburger span { display:block; width:22px; height:1.5px; background:var(--forest); transition:all .3s; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: var(--forest);
+  display: flex; flex-direction:column;
+  align-items: center; justify-content:center;
+  text-align: center;
+  padding: 8rem 5vw 5rem;
+  position: relative; overflow:hidden;
+}
+
+/* background texture rings */
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 120% 70% at 50% 100%, rgba(45,82,64,0.7) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 30% -10%, rgba(61,107,82,0.3) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 60% at 80% 20%, rgba(181,136,58,0.08) 0%, transparent 50%);
+}
+
+.hero-ring {
+  position:absolute;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.04);
+  pointer-events:none;
+}
+.ring1 { width:600px; height:600px; top:50%; left:50%; transform:translate(-50%,-50%); }
+.ring2 { width:900px; height:900px; top:50%; left:50%; transform:translate(-50%,-50%); }
+.ring3 { width:1200px; height:1200px; top:50%; left:50%; transform:translate(-50%,-50%); }
+
+.hero-inner { position:relative; z-index:2; max-width:680px; }
+
+.hero-tag {
+  display:inline-flex; align-items:center; gap:.7rem;
+  color:var(--gold-lt); font-size:.7rem; font-weight:600;
+  letter-spacing:.25em; text-transform:uppercase;
+  margin-bottom:1.5rem;
+  animation:fu .8s ease both;
+}
+.hero-tag::before,.hero-tag::after {
+  content:''; display:block; width:28px; height:1px;
+  background:var(--gold); opacity:.5;
+}
+
+.hero h1 {
+  font-family:var(--serif);
+  font-size: clamp(3rem,7vw,5.5rem);
+  font-weight:700; color:#fff;
+  line-height:1.0; letter-spacing:-0.01em;
+  animation:fu .8s .1s ease both;
+}
+.hero h1 em { font-style:italic; color:var(--gold-lt); display:block; }
+
+.hero-desc {
+  margin-top:1.3rem;
+  font-size:.95rem; color:rgba(255,255,255,.55);
+  line-height:1.75; max-width:500px; margin-inline:auto;
+  animation:fu .8s .2s ease both;
+}
+
+.hero-actions {
+  display:flex; gap:1rem; justify-content:center;
+  margin-top:2.2rem; flex-wrap:wrap;
+  animation:fu .8s .3s ease both;
+}
+
+.btn-gold {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:var(--gold); color:var(--forest);
+  padding:.8rem 1.8rem; border-radius:2px;
+  font-family:var(--sans); font-size:.78rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  text-decoration:none; border:none; cursor:pointer;
+  transition:background .2s, transform .2s;
+  box-shadow:0 4px 20px rgba(181,136,58,.3);
+}
+.btn-gold:hover { background:var(--gold-lt); transform:translateY(-2px); }
+
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:transparent; color:rgba(255,255,255,.8);
+  padding:.8rem 1.8rem; border-radius:2px;
+  font-family:var(--sans); font-size:.78rem; font-weight:400;
+  letter-spacing:.12em; text-transform:uppercase;
+  text-decoration:none; border:1px solid rgba(255,255,255,.2);
+  transition:border-color .2s, background .2s;
+}
+.btn-ghost:hover { border-color:rgba(255,255,255,.5); background:rgba(255,255,255,.05); }
+
+.hero-badges {
+  display:flex; gap:2.5rem; justify-content:center;
+  margin-top:3.5rem; flex-wrap:wrap;
+  animation:fu .8s .4s ease both;
+}
+.hero-badge-item { text-align:center; }
+.badge-num {
+  font-family:var(--serif); font-size:2rem; font-weight:700;
+  color:#fff; line-height:1;
+}
+.badge-label { font-size:.68rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-top:.2rem; }
+
+@keyframes fu { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── HOURS STRIP ── */
+.hours-strip {
+  background:var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  gap:2.5rem; flex-wrap:wrap;
+  padding:1.1rem 5vw;
+}
+.hours-item {
+  display:flex; align-items:center; gap:.6rem;
+  font-size:.78rem; font-weight:500; color:var(--forest);
+  letter-spacing:.04em;
+}
+.hours-item strong { font-weight:700; }
+.h-divider { color:rgba(30,58,42,.3); font-size:1rem; }
+
+/* ── GENERIC SECTION ── */
+section { padding:5rem 5vw; }
+
+.section-wrap {
+  max-width:var(--max);
+  margin-inline:auto;
+  text-align:center;
+}
+
+.pill-label {
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-size:.68rem; font-weight:600; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--gold);
+  margin-bottom:.8rem;
+}
+.pill-label::before,.pill-label::after {
+  content:''; display:block; width:24px; height:1px; background:var(--gold); opacity:.5;
+}
+
+.sec-title {
+  font-family:var(--serif);
+  font-size:clamp(1.9rem,3.5vw,2.9rem);
+  font-weight:700; color:var(--forest);
+  line-height:1.1; letter-spacing:-0.01em;
+  margin-bottom:.8rem;
+}
+.sec-title em { font-style:italic; }
+
+.sec-desc { color:var(--muted); font-size:.9rem; max-width:520px; margin-inline:auto; margin-bottom:3rem; line-height:1.75; }
+
+/* ── ABOUT ── */
+#ueber { background:var(--cream); }
+
+.about-content {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:3.5rem; align-items:center;
+  text-align:left; max-width:var(--max); margin-inline:auto;
+}
+
+.about-img {
+  aspect-ratio:4/5;
+  background:linear-gradient(160deg, var(--forest-lt) 0%, var(--forest) 100%);
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:6rem;
+  position:relative; overflow:hidden;
+}
+.about-img::before {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(
+    -45deg,
+    rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,
+    transparent 1px,transparent 18px
+  );
+}
+
+.about-badge-float {
+  position:absolute; bottom:-12px; right:-12px;
+  width:100px; height:100px;
+  background:var(--gold); border-radius:50%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  color:var(--forest); text-align:center;
+  box-shadow:0 6px 24px rgba(181,136,58,.35);
+}
+.float-stars { font-size:1rem; }
+.float-val { font-family:var(--serif); font-size:1.3rem; font-weight:700; line-height:1; }
+.float-sub { font-size:.55rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; opacity:.8; }
+
+.about-text .pill-label { justify-content:flex-start; }
+.about-text .pill-label::before { display:none; }
+
+.about-text h2 {
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,3vw,2.5rem);
+  font-weight:700; color:var(--forest);
+  line-height:1.15; margin-bottom:1rem;
+}
+
+.about-text p { color:var(--muted); font-size:.88rem; margin-bottom:.8rem; }
+
+.wirtsleute {
+  margin-top:1.5rem;
+  display:flex; align-items:center; gap:1rem;
+  background:var(--cream-dk); border:1px solid var(--border);
+  border-radius:4px; padding:1rem 1.2rem;
+}
+.wirt-ava {
+  width:48px; height:48px;
+  background:linear-gradient(135deg,var(--forest-lt),var(--forest));
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; flex-shrink:0;
+}
+.wirt-name { font-family:var(--serif); font-size:.95rem; font-weight:600; color:var(--forest); }
+.wirt-role { font-size:.72rem; color:var(--muted); letter-spacing:.04em; }
+
+/* ── KÜCHE ── */
+#kueche { background:var(--cream-dk); }
+
+.kueche-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1.5px; background:var(--border);
+  border:1px solid var(--border); border-radius:6px;
+  overflow:hidden; max-width:var(--max); margin-inline:auto;
+}
+
+.kueche-card {
+  background:var(--cream-dk);
+  padding:2.2rem 1.8rem; text-align:center;
+  transition:background .25s, transform .25s;
+}
+.kueche-card:hover { background:var(--cream); transform:translateY(-2px); }
+
+.k-icon { font-size:2rem; margin-bottom:.9rem; }
+.kueche-card h3 {
+  font-family:var(--serif); font-size:1.1rem; font-weight:600;
+  color:var(--forest); margin-bottom:.4rem;
+}
+.kueche-card p { font-size:.82rem; color:var(--muted); line-height:1.6; }
+
+/* ── HIGHLIGHTS ── */
+#highlights { background:var(--forest); }
+
+#highlights .pill-label { color:var(--gold-lt); }
+#highlights .pill-label::before,#highlights .pill-label::after { background:var(--gold); }
+#highlights .sec-title { color:#fff; }
+#highlights .sec-desc { color:rgba(255,255,255,.5); }
+
+.hl-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:1.2rem; max-width:var(--max); margin-inline:auto;
+}
+
+.hl-card {
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:4px; padding:2rem 1.5rem; text-align:center;
+  transition:background .25s, transform .25s;
+}
+.hl-card:hover { background:rgba(255,255,255,.1); transform:translateY(-3px); }
+
+.hl-icon { font-size:2rem; margin-bottom:.8rem; }
+.hl-card h3 { font-family:var(--serif); font-size:1rem; font-weight:600; color:#fff; margin-bottom:.3rem; }
+.hl-card p { font-size:.78rem; color:rgba(255,255,255,.5); line-height:1.55; }
+
+/* ── BEWERTUNGEN ── */
+#bewertungen { background:var(--cream); }
+
+.reviews-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.5rem; max-width:var(--max); margin-inline:auto;
+}
+
+.review-card {
+  background:var(--cream-dk);
+  border:1px solid var(--border); border-radius:4px;
+  padding:1.8rem; text-align:left;
+  transition:box-shadow .25s;
+}
+.review-card:hover { box-shadow:0 8px 24px rgba(30,58,42,.07); }
+
+.review-stars { color:var(--gold); font-size:.9rem; margin-bottom:.6rem; }
+.review-text { font-size:.85rem; color:var(--muted); line-height:1.65; font-style:italic; margin-bottom:.8rem; }
+.review-author { font-size:.75rem; font-weight:600; letter-spacing:.05em; color:var(--forest); }
+
+/* ── KONTAKT & KARTE ── */
+#kontakt { background:var(--cream-dk); }
+
+.contact-grid {
+  display:grid; grid-template-columns:1fr 1.3fr;
+  gap:3rem; align-items:start;
+  max-width:var(--max); margin-inline:auto; text-align:left;
+}
+
+.contact-info .pill-label { justify-content:flex-start; }
+.contact-info .pill-label::before { display:none; }
+
+.contact-info h2 {
+  font-family:var(--serif); font-size:2rem; font-weight:700;
+  color:var(--forest); margin-bottom:.5rem;
+}
+.contact-info > p { color:var(--muted); font-size:.88rem; margin-bottom:2rem; }
+
+.info-rows { display:flex; flex-direction:column; gap:1rem; }
+.info-row { display:flex; gap:.9rem; align-items:flex-start; }
+.info-ico {
+  width:38px; height:38px; flex-shrink:0;
+  background:var(--cream); border:1px solid var(--border);
+  border-radius:3px; display:flex; align-items:center; justify-content:center;
+  font-size:1rem; margin-top:2px;
+}
+.info-lbl { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:.15rem; }
+.info-val { font-size:.88rem; color:var(--text); }
+.info-val a { color:var(--forest-mid); text-decoration:none; }
+.info-val a:hover { text-decoration:underline; }
+
+/* hours table */
+.oh-table { margin-top:1.8rem; }
+.oh-table h4 { font-family:var(--serif); font-size:1rem; color:var(--forest); margin-bottom:.8rem; }
+.oh-row {
+  display:flex; justify-content:space-between;
+  padding:.4rem 0; border-bottom:1px solid var(--border);
+  font-size:.83rem;
+}
+.oh-row .day { color:var(--muted); }
+.oh-row .time { color:var(--text); }
+.oh-row.closed .time { color:var(--muted); font-style:italic; }
+.oh-row.highlight .time { color:var(--forest-mid); font-weight:600; }
+.oh-note { font-size:.72rem; color:var(--muted); margin-top:.6rem; }
+
+.map-wrap {
+  border-radius:6px; overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:0 6px 28px rgba(30,58,42,.09);
+}
+.map-wrap iframe { display:block; width:100%; height:420px; border:none; }
+
+/* instagram strip */
+.insta-strip {
+  display:inline-flex; align-items:center; gap:.6rem;
+  margin-top:1.5rem;
+  border:1px solid var(--border); border-radius:2px;
+  padding:.55rem 1.1rem; text-decoration:none;
+  color:var(--forest); font-size:.78rem; font-weight:500;
+  letter-spacing:.06em; background:var(--cream);
+  transition:background .2s, border-color .2s;
+}
+.insta-strip:hover { background:var(--cream-dk); border-color:var(--sand); }
+.insta-icon { color:#e1306c; }
+
+/* ── FOOTER ── */
+footer {
+  background:var(--forest);
+  padding:2.8rem 5vw 1.8rem;
+  text-align:center;
+}
+
+.footer-logo {
+  font-family:var(--serif); font-size:1.5rem; font-weight:700;
+  color:#fff; margin-bottom:.4rem;
+}
+.footer-sub { font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:1.5rem; }
+
+.footer-links {
+  display:flex; gap:1.8rem; justify-content:center; flex-wrap:wrap;
+  margin-bottom:1.5rem;
+}
+.footer-links a { color:rgba(255,255,255,.4); text-decoration:none; font-size:.78rem; transition:color .2s; }
+.footer-links a:hover { color:#fff; }
+
+.footer-bottom { font-size:.72rem; color:rgba(255,255,255,.2); border-top:1px solid rgba(255,255,255,.07); padding-top:1.2rem; }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease,transform .6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px) {
+  .about-content { grid-template-columns:1fr; text-align:center; }
+  .about-text .pill-label { justify-content:center; }
+  .about-text .pill-label::before { display:block; }
+  .about-text h2,.about-text p { text-align:center; }
+  .wirtsleute { justify-content:center; text-align:left; }
+  .kueche-grid { grid-template-columns:1fr 1fr; }
+  .contact-grid { grid-template-columns:1fr; }
+  .contact-info .pill-label { justify-content:center; }
+  .contact-info .pill-label::before { display:block; }
+  .contact-info h2,.contact-info > p { text-align:center; }
+  .oh-table h4 { text-align:center; }
+  .insta-strip { display:flex; justify-content:center; }
+}
+
+@media(max-width:580px) {
+  nav { padding:.9rem 4vw; }
+  .nav-links { display:none; flex-direction:column; gap:1rem; position:absolute; top:100%; left:0; right:0; background:rgba(248,244,237,.97); backdrop-filter:blur(14px); padding:1.5rem 5vw; border-bottom:1px solid var(--border); }
+  .nav-links.open { display:flex; }
+  .hamburger { display:flex; }
+  .kueche-grid { grid-template-columns:1fr; }
+  .hours-strip { flex-direction:column; gap:.8rem; }
+  .h-divider { display:none; }
+  section { padding:3.5rem 5vw; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Waldgaststätte <small>Oberweikertshofen · Egenhofen</small></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#ueber">Über uns</a></li>
+    <li><a href="#kueche">Küche</a></li>
+    <li><a href="#highlights">Extras</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+    <li><a href="tel:+4981458097 03" class="nav-cta">Reservieren</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-ring ring1"></div>
+  <div class="hero-ring ring2"></div>
+  <div class="hero-ring ring3"></div>
+
+  <div class="hero-inner">
+    <div class="hero-tag"><span></span>Bayerisch · Kroatisch · Herzlich<span></span></div>
+
+    <h1>
+      Waldgaststätte
+      <em>Oberweikertshofen</em>
+    </h1>
+
+    <p class="hero-desc">
+      Rustikale Gastfreundschaft am Waldrand in Egenhofen. Große Portionen, faire Preise, familiäre Atmosphäre – seit Jahren ein Geheimtipp im Landkreis Fürstenfeldbruck.
+    </p>
+
+    <div class="hero-actions">
+      <a href="tel:+4981458097 03" class="btn-gold">📞 Tisch reservieren</a>
+      <a href="#ueber" class="btn-ghost">Mehr entdecken ↓</a>
+    </div>
+
+    <div class="hero-badges">
+      <div class="hero-badge-item">
+        <div class="badge-num">4.8</div>
+        <div class="badge-label">Google Bewertung</div>
+      </div>
+      <div class="hero-badge-item">
+        <div class="badge-num">350+</div>
+        <div class="badge-label">Bewertungen</div>
+      </div>
+      <div class="hero-badge-item">
+        <div class="badge-num">€10–30</div>
+        <div class="badge-label">Pro Person</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS STRIP -->
+<div class="hours-strip">
+  <div class="hours-item">🔴 <span><strong>Montag</strong> – Ruhetag</span></div>
+  <div class="h-divider">·</div>
+  <div class="hours-item">🕔 <span><strong>Di – Fr</strong> ab 17:00 Uhr</span></div>
+  <div class="h-divider">·</div>
+  <div class="hours-item">🌞 <span><strong>Samstag</strong> ab 13:00 Uhr</span></div>
+  <div class="h-divider">·</div>
+  <div class="hours-item">☀️ <span><strong>So & Feiertage</strong> ab 09:00 Uhr</span></div>
+</div>
+
+<!-- ÜBER UNS -->
+<section id="ueber">
+  <div class="about-content">
+    <div class="about-img reveal">
+      🌲
+      <div class="about-badge-float">
+        <span class="float-stars">⭐</span>
+        <span class="float-val">4.8</span>
+        <span class="float-sub">Google</span>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <div class="pill-label"><span>Unsere Geschichte</span></div>
+      <h2>Wo Gäste zu Freunden werden</h2>
+      <p>Die Waldgaststätte Oberweikertshofen liegt ruhig am Waldrand in Egenhofen – direkt am Sportplatz des SC Oberweikertshofen. Ein echter Familienbetrieb mit kroatisch-bayerischer Seele.</p>
+      <p>Gäste kommen für die Küche und bleiben wegen der herzlichen Atmosphäre. Großzügige Portionen, sorgfältig zubereitet, zu Preisen, die noch stimmen – genau so soll Gastfreundschaft sein.</p>
+      <p>Ob nach dem Radausflug aus München, zum Vereinstreffen oder für eine Familienfeier – hier fühlt sich jeder willkommen.</p>
+      <div class="wirtsleute">
+        <div class="wirt-ava">👫</div>
+        <div>
+          <div class="wirt-name">Dunja & Josip</div>
+          <div class="wirt-role">Ihre Gastgeber · Familienbetrieb</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KÜCHE -->
+<section id="kueche">
+  <div class="section-wrap reveal">
+    <div class="pill-label"><span>Am Herd</span></div>
+    <h2 class="sec-title">Bayerisch trifft <em>kroatisch</em></h2>
+    <p class="sec-desc">Eine Küche mit Charakter – von knusprigen Schnitzeln über kroatische Grillspezialitäten bis zur selbstgemachten Nachspeise.</p>
+  </div>
+  <div class="kueche-grid">
+    <div class="kueche-card reveal">
+      <div class="k-icon">🥩</div>
+      <h3>Schnitzel & Fleisch</h3>
+      <p>Klassisches Wiener Schnitzel, Leber und Fleischspieße – herzhafte bayerische Küche in Vollendung.</p>
+    </div>
+    <div class="kueche-card reveal">
+      <div class="k-icon">🔥</div>
+      <h3>Kroatischer Grillteller</h3>
+      <p>Pola-pola: Fleischspieß und Hackwürstchen mit Grillgemüse, Pommes und Salat – ein Gaumenschmaus.</p>
+    </div>
+    <div class="kueche-card reveal">
+      <div class="k-icon">🍔</div>
+      <h3>Burger & Mehr</h3>
+      <p>Handgemachte Burger, Currywurst, Brotzeit – für jeden Geschmack und Hunger ist gesorgt.</p>
+    </div>
+    <div class="kueche-card reveal">
+      <div class="k-icon">🌿</div>
+      <h3>Saisonales</h3>
+      <p>Frischer Spargel mit Kartoffeln, Salate der Saison und regionale Produkte – saisonal und ehrlich.</p>
+    </div>
+    <div class="kueche-card reveal">
+      <div class="k-icon">🍮</div>
+      <h3>Desserts</h3>
+      <p>Selbstgemachter Windbeutel, Kaiserschmarrn – hausgemachte Nachspeisen wie bei der Oma.</p>
+    </div>
+    <div class="kueche-card reveal">
+      <div class="k-icon">🥗</div>
+      <h3>Vegetarisches</h3>
+      <p>Auch vegetarische Optionen stehen auf der Karte – vielfältig und lecker für alle Gäste.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section id="highlights">
+  <div class="section-wrap reveal">
+    <div class="pill-label"><span>Das Besondere</span></div>
+    <h2 class="sec-title" style="color:#fff">Was uns <em>ausmacht</em></h2>
+    <p class="sec-desc">Mehr als nur ein Restaurant – ein Ort zum Wohlfühlen, Feiern und Wiederkommen.</p>
+  </div>
+  <div class="hl-grid">
+    <div class="hl-card reveal">
+      <div class="hl-icon">🌳</div>
+      <h3>Terrasse im Grünen</h3>
+      <p>Genießen Sie Ihre Mahlzeit auf unserer schönen Außenterrasse, direkt am Waldrand.</p>
+    </div>
+    <div class="hl-card reveal">
+      <div class="hl-icon">🎉</div>
+      <h3>Feiern & Feste</h3>
+      <p>Hochzeiten, Geburtstage, Vereinsfeiern – wir machen Ihren Anlass unvergesslich.</p>
+    </div>
+    <div class="hl-card reveal">
+      <div class="hl-icon">🚗</div>
+      <h3>Kostenlos Parken</h3>
+      <p>Ausreichend kostenfreie Parkplätze direkt am Restaurant – stressfrei ankommen.</p>
+    </div>
+    <div class="hl-card reveal">
+      <div class="hl-icon">♿</div>
+      <h3>Barrierefrei</h3>
+      <p>Unser Lokal ist barrierefrei zugänglich – damit alle Gäste bequem kommen können.</p>
+    </div>
+    <div class="hl-card reveal">
+      <div class="hl-icon">🥡</div>
+      <h3>Take-Away</h3>
+      <p>Lust auf Dorfwirt-Qualität zuhause? Wir bieten unsere Gerichte auch zum Mitnehmen an.</p>
+    </div>
+    <div class="hl-card reveal">
+      <div class="hl-icon">💳</div>
+      <h3>Kartenzahlung</h3>
+      <p>Kreditkarten werden akzeptiert – bequemes und flexibles Bezahlen ist selbstverständlich.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BEWERTUNGEN -->
+<section id="bewertungen">
+  <div class="section-wrap reveal">
+    <div class="pill-label"><span>Was Gäste sagen</span></div>
+    <h2 class="sec-title">Echte <em>Stimmen</em></h2>
+    <p class="sec-desc">Über 350 Bewertungen, durchschnittlich 4,8 Sterne – unsere Gäste sprechen für sich.</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">„Fantastische Küche, wo das Preis-Leistungs-Verhältnis einfach noch stimmt! Wir werden wiederkommen."</p>
+      <div class="review-author">Markus W. · Google</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">„Sehr leckeres Essen, gastfreundlich, wir sind als Gäste gekommen und als Freunde gegangen."</p>
+      <div class="review-author">Google-Bewertung</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">„Beste Fleischspieße forever, dazu gebratenes Gemüse. Große Portionen, schön zubereitet und lecker. Schneller, sehr freundlicher Service."</p>
+      <div class="review-author">Radtour-Gast aus München · Google</div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT & KARTE -->
+<section id="kontakt">
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="pill-label"><span>Anfahrt & Öffnungszeiten</span></div>
+      <h2>Besuchen Sie uns</h2>
+      <p>Wir freuen uns auf Sie! Reservierungen nehmen wir gerne telefonisch entgegen.</p>
+
+      <div class="info-rows">
+        <div class="info-row">
+          <div class="info-ico">📍</div>
+          <div>
+            <div class="info-lbl">Adresse</div>
+            <div class="info-val">Sportplatzstraße 1<br>82281 Egenhofen</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-ico">📞</div>
+          <div>
+            <div class="info-lbl">Telefon</div>
+            <div class="info-val"><a href="tel:+4981458097 03">08145 / 809703</a></div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-ico">✉️</div>
+          <div>
+            <div class="info-lbl">E-Mail</div>
+            <div class="info-val"><a href="mailto:waldgaststaette-oberweikertshofen@web.de">waldgaststaette-oberweikertshofen@web.de</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="oh-table">
+        <h4>Öffnungszeiten</h4>
+        <div class="oh-row closed"><span class="day">Montag</span><span class="time">Ruhetag</span></div>
+        <div class="oh-row"><span class="day">Dienstag – Donnerstag</span><span class="time">17:00 – 24:00</span></div>
+        <div class="oh-row"><span class="day">Freitag</span><span class="time">17:00 – 23:00</span></div>
+        <div class="oh-row highlight"><span class="day">Samstag</span><span class="time">13:00 – 24:00</span></div>
+        <div class="oh-row highlight" style="border-bottom:none"><span class="day">Sonn- & Feiertage</span><span class="time">09:00 – 24:00</span></div>
+        <p class="oh-note">* Angaben ohne Gewähr – bitte bei Sonderveranstaltungen vorab anrufen.</p>
+      </div>
+
+      <a href="https://www.instagram.com/waldgaststatte_egenhofen" target="_blank" rel="noopener" class="insta-strip">
+        <span class="insta-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </span>
+        <span>@waldgaststatte_egenhofen</span>
+      </a>
+    </div>
+
+    <div class="map-wrap reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2602.8!2d11.1527!3d48.1760!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479c2b6ef11b5a0f%3A0x5a0c6a4d3b1e2f80!2sWaldgastst%C3%A4tte%20Oberweikertshofen!5e0!3m2!1sde!2sde!4v1700000000001!5m2!1sde!2sde"
+        allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Waldgaststätte – Sportplatzstraße 1, 82281 Egenhofen">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Waldgaststätte Oberweikertshofen</div>
+  <div class="footer-sub">Sportplatzstraße 1 · 82281 Egenhofen</div>
+  <div class="footer-links">
+    <a href="tel:+4981458097 03">📞 08145 / 809703</a>
+    <a href="mailto:waldgaststaette-oberweikertshofen@web.de">✉ E-Mail</a>
+    <a href="https://www.instagram.com/waldgaststatte_egenhofen" target="_blank">Instagram</a>
+    <a href="#kontakt">Anfahrt</a>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Waldgaststätte Oberweikertshofen · Dunja & Josip · Alle Rechte vorbehalten
+  </div>
+</footer>
+
+<script>
+  const ham = document.getElementById('hamburger');
+  const nl = document.getElementById('navLinks');
+  ham.addEventListener('click', () => nl.classList.toggle('open'));
+  nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold:.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
